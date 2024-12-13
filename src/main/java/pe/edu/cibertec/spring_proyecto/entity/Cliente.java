@@ -12,10 +12,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Distritos {
+public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_dis;
+    private Integer id;
     private String nombre;
+    private Double email;
+    private String username;
+    private Integer password;
+    private String direccion;
+    private Integer id_dist;
 }
-

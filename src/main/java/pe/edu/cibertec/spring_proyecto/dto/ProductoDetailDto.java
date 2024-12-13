@@ -1,8 +1,9 @@
 package pe.edu.cibertec.spring_proyecto.dto;
 
-public record ProductosDetailDto(Integer id,
+public record ProductoDetailDto(Integer id,
                                 String nombre,
-                                Double precio_u,
+                                Double precioU,
+                                String uniMedida,
                                 Integer stock,
                                 String marca){
 }
