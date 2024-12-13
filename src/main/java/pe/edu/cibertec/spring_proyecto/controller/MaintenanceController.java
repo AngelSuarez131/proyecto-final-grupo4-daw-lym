@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.cibertec.spring_proyecto.dto.ProductoDetailDto;
 import pe.edu.cibertec.spring_proyecto.dto.ProductoDto;
+import pe.edu.cibertec.spring_proyecto.entity.Producto;
 import pe.edu.cibertec.spring_proyecto.service.MaintenanceService;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class MaintenanceController {
 
     // Muestra el formulario de edición de un producto
     @GetMapping("/edit/{id}")
-    public String editarProducto(@PathVariable Integer id, Model model) {
+    public String edit(@PathVariable Integer id, Model model) {
         ProductoDetailDto productoDetailDto = maintenanceService.findProductoById(id);
         model.addAttribute("producto", productoDetailDto);
         return "maintenance_edit";
@@ -43,15 +44,38 @@ public class MaintenanceController {
 
     // Procesa la edición de un producto
     @PostMapping("/edit-confirm")
-    public String editarProductoConfirmar(@ModelAttribute ProductoDetailDto productoDetailDto) {
+    public String editConfirm(@ModelAttribute ProductoDetailDto productoDetailDto, Model model) {
         maintenanceService.updateProducto(productoDetailDto);
         return "redirect:/maintenance/start";
     }
 
     // Elimina un producto
     @PostMapping("/remove/{id}")
-    public String eliminarProducto(@PathVariable Integer id) {
-        maintenanceService.deleteProductoById(id); // Método para eliminar el producto
-        return "redirect:/maintenance/start";
+    public String remove(@PathVariable Integer id, Model model) {
+        boolean isDeleted = maintenanceService.deleteProductoById(id);
+        if (isDeleted) {
+            return "redirect:/maintenance/start";  // Redirige a la página de inicio o listado de productos
+        } else {
+            model.addAttribute("errorMessage", "Producto no encontrado o no pudo ser eliminado.");
+            return "maintenance";
+        }
     }
+
+    @GetMapping("/create")
+    public String showCreateProductForm(Model model) {
+        model.addAttribute("producto", new Producto()); // Asegúrate de pasar un objeto vacío para el formulario
+        return "maintenance_create"; // Aquí debes devolver el nombre de la vista para crear el producto
+    }
+
+    @PostMapping("/create-confirm")
+    public String createConfirm(@ModelAttribute Producto producto, Model model) {
+        boolean isCreated = maintenanceService.createProducto(producto);
+        if (isCreated) {
+            return "redirect:/maintenance/start";  // Redirige al listado de productos (ajusta esta URL si es necesario)
+        } else {
+            model.addAttribute("error", "Error al crear el producto.");
+            return "maintenance_create";  // Vuelve al formulario con el error
+        }
+    }
+
 }

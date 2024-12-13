@@ -19,5 +19,4 @@ public class Producto {
     private Integer stock;
     private String marca;
 
-
 }

@@ -2,6 +2,7 @@ package pe.edu.cibertec.spring_proyecto.service;
 
 import pe.edu.cibertec.spring_proyecto.dto.ProductoDetailDto;
 import pe.edu.cibertec.spring_proyecto.dto.ProductoDto;
+import pe.edu.cibertec.spring_proyecto.entity.Producto;
 
 import java.util.List;
 
@@ -12,5 +13,7 @@ public interface MaintenanceService {
 
     Boolean updateProducto(ProductoDetailDto productoDetailDto);
 
-    void deleteProductoById(int id);
+    Boolean deleteProductoById(int id);
+
+    Boolean createProducto(Producto producto);
 }

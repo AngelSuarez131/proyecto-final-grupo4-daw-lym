@@ -45,27 +45,48 @@ public class MaintenanceServiceImpl implements MaintenanceService {
                 producto.getUniMedida(),
                 producto.getStock(),
                 producto.getMarca()
-        )).orElse(null);
+        )).orElseThrow(() -> new RuntimeException("Producto no encontrado")); // Lanzar una excepción si no se encuentra
     }
 
     @Override
     public Boolean updateProducto(ProductoDetailDto productoDetailDto) {
         Optional<Producto> optional = productoRepository.findById(productoDetailDto.id());
-        return optional.map(producto -> {
-            producto.setNombre(productoDetailDto.nombre());
-            producto.setPrecioU(productoDetailDto.precioU());
-            producto.setUniMedida(productoDetailDto.uniMedida());
-            producto.setStock(productoDetailDto.stock());
-            producto.setMarca(productoDetailDto.marca());
-            productoRepository.save(producto);
-            return true;
-        }).orElse(false);
+        return optional.map(
+                producto -> {
+                    producto.setNombre(productoDetailDto.nombre());
+                    producto.setPrecioU(productoDetailDto.precioU());
+                    producto.setUniMedida(productoDetailDto.uniMedida());
+                    producto.setStock(productoDetailDto.stock());
+                    producto.setMarca(productoDetailDto.marca());
+                    productoRepository.save(producto);
+                    return true;
+                }).orElseThrow(() -> new RuntimeException("Producto no encontrado para actualizar"));
     }
 
     @Transactional
     @Override
-    public void deleteProductoById(int id) {
+    public Boolean deleteProductoById(int id) {
+        Optional<Producto> productoOptional = productoRepository.findById(id);
 
-        productoRepository.deleteById(id);
+        if (productoOptional.isPresent()) {
+            productoRepository.deleteById(id);
+            return true;  // Producto eliminado exitosamente
+        } else {
+            return false;  // Producto no encontrado
+        }
+    }
+    @Override
+    public Boolean createProducto(Producto producto) {
+        try {
+            // Se guarda el producto en la base de datos
+            productoRepository.save(producto);
+            return true;  // Indicar que el producto fue creado con éxito
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;  // Indicar que hubo un error
+        }
     }
 }
+
+
+
