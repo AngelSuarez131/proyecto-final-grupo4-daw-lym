@@ -22,9 +22,9 @@
             <th>Stock</th>
             <th colspan="2">Acciones</th>
         </tr>
-        <tr th:each="product : ${productos}">
+        <tr th:each="producto : ${productos}">
             <td>
-                <a th:href="@{/maintenance/detail/{id}(id=${producto.id})}" th:text="${producto.id}"></a>
+                <a th:href="@{/maintenance/detail/{id}(id=${producto.id()})}" th:text="${producto.id()}"></a>
             </td>
             <td th:text="${producto.nombre()}"></td>
             <td th:text="${producto.precioU()}"></td>
