@@ -23,15 +23,15 @@ public class MaintenanceController {
     private CategoriaRepository categoriaRepository;
 
 
-    @GetMapping("/login")
-    public String login(Model model) {
-        return "login";
-    }
-
-    @GetMapping("/restricted")
-    public String restricted(Model model) {
-        return "restricted";
-    }
+//    @GetMapping("/login")
+//    public String login(Model model) {
+//        return "login";
+//    }
+//
+//    @GetMapping("/restricted")
+//    public String restricted(Model model) {
+//        return "restricted";
+//    }
 
 
     // Muestra la lista de productos
@@ -84,7 +84,7 @@ public class MaintenanceController {
 
     @GetMapping("/create")
     public String showCreateProductForm(Model model) {
-        List<Categoria> categorias = (List<Categoria>) categoriaRepository.findAll(); // Obtener todas las categorías
+        List<CategoriaDto> categorias = maintenanceService.getAllCategorias(); // Obtienes las categorías
         model.addAttribute("producto", new Producto()); // Asegúrate de pasar un objeto vacío para el formulario
         model.addAttribute("categorias", categorias); // Pasar las categorías al formulario
         return "maintenance_create"; // El nombre de la vista
@@ -100,6 +100,8 @@ public class MaintenanceController {
             return "maintenance_create";  // Vuelve al formulario con el error
         }
     }
+
+
 
 
 }
