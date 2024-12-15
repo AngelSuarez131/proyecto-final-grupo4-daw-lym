@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pe.edu.cibertec.spring_proyecto.dto.CategoriaDto;
 import pe.edu.cibertec.spring_proyecto.dto.ProductoDetailDto;
 import pe.edu.cibertec.spring_proyecto.dto.ProductoDto;
+import pe.edu.cibertec.spring_proyecto.entity.Categoria;
 import pe.edu.cibertec.spring_proyecto.entity.Producto;
+import pe.edu.cibertec.spring_proyecto.repository.CategoriaRepository;
 import pe.edu.cibertec.spring_proyecto.service.MaintenanceService;
 
 import java.util.List;
@@ -17,6 +20,7 @@ public class MaintenanceController {
 
     @Autowired
     private MaintenanceService maintenanceService;
+    private CategoriaRepository categoriaRepository;
 
     // Muestra la lista de productos
     @GetMapping("/start")
@@ -37,14 +41,19 @@ public class MaintenanceController {
     // Muestra el formulario de edición de un producto
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        ProductoDetailDto productoDetailDto = maintenanceService.findProductoById(id);
-        model.addAttribute("producto", productoDetailDto);
-        return "maintenance_edit";
+        ProductoDetailDto productoDetailDto = maintenanceService.findProductoById(id); // Obtienes el DTO con los datos del producto
+        List<CategoriaDto> categorias = maintenanceService.getAllCategorias(); // Obtienes las categorías
+
+        model.addAttribute("producto", productoDetailDto); // Le pasas el DTO al modelo
+        model.addAttribute("categorias", categorias); // Y las categorías al modelo
+        return "maintenance_edit";  // Vista de edición
     }
 
     // Procesa la edición de un producto
     @PostMapping("/edit-confirm")
     public String editConfirm(@ModelAttribute ProductoDetailDto productoDetailDto, Model model) {
+        System.out.println("Datos recibidos del formulario: " + productoDetailDto);
+
         maintenanceService.updateProducto(productoDetailDto);
         return "redirect:/maintenance/start";
     }
@@ -63,8 +72,10 @@ public class MaintenanceController {
 
     @GetMapping("/create")
     public String showCreateProductForm(Model model) {
+        List<Categoria> categorias = (List<Categoria>) categoriaRepository.findAll(); // Obtener todas las categorías
         model.addAttribute("producto", new Producto()); // Asegúrate de pasar un objeto vacío para el formulario
-        return "maintenance_create"; // Aquí debes devolver el nombre de la vista para crear el producto
+        model.addAttribute("categorias", categorias); // Pasar las categorías al formulario
+        return "maintenance_create"; // El nombre de la vista
     }
 
     @PostMapping("/create-confirm")
@@ -77,5 +88,6 @@ public class MaintenanceController {
             return "maintenance_create";  // Vuelve al formulario con el error
         }
     }
+
 
 }

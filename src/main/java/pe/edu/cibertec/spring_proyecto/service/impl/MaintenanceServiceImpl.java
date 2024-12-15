@@ -3,9 +3,12 @@ package pe.edu.cibertec.spring_proyecto.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pe.edu.cibertec.spring_proyecto.dto.CategoriaDto;
 import pe.edu.cibertec.spring_proyecto.dto.ProductoDetailDto;
 import pe.edu.cibertec.spring_proyecto.dto.ProductoDto;
+import pe.edu.cibertec.spring_proyecto.entity.Categoria;
 import pe.edu.cibertec.spring_proyecto.entity.Producto;
+import pe.edu.cibertec.spring_proyecto.repository.CategoriaRepository;
 import pe.edu.cibertec.spring_proyecto.repository.ProductoRepository;
 import pe.edu.cibertec.spring_proyecto.service.MaintenanceService;
 
@@ -18,6 +21,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     @Autowired
     private ProductoRepository productoRepository;
 
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
     @Override
     public List<ProductoDto> findAllProductos() {
 
@@ -28,7 +34,8 @@ public class MaintenanceServiceImpl implements MaintenanceService {
                     producto.getId(),
                     producto.getNombre(),
                     producto.getPrecioU(),
-                    producto.getStock()
+                    producto.getStock(),
+                    producto.getCategoria().getCategoriaNombre()
             );
             productos.add(productoDto);
         });
@@ -44,24 +51,48 @@ public class MaintenanceServiceImpl implements MaintenanceService {
                 producto.getPrecioU(),
                 producto.getUniMedida(),
                 producto.getStock(),
-                producto.getMarca()
+                producto.getMarca(),
+                producto.getCategoria().getCategoriaNombre()
         )).orElseThrow(() -> new RuntimeException("Producto no encontrado")); // Lanzar una excepción si no se encuentra
     }
 
+    @Transactional
     @Override
     public Boolean updateProducto(ProductoDetailDto productoDetailDto) {
-        Optional<Producto> optional = productoRepository.findById(productoDetailDto.id());
-        return optional.map(
-                producto -> {
-                    producto.setNombre(productoDetailDto.nombre());
-                    producto.setPrecioU(productoDetailDto.precioU());
-                    producto.setUniMedida(productoDetailDto.uniMedida());
-                    producto.setStock(productoDetailDto.stock());
-                    producto.setMarca(productoDetailDto.marca());
-                    productoRepository.save(producto);
-                    return true;
-                }).orElseThrow(() -> new RuntimeException("Producto no encontrado para actualizar"));
+        // Buscar el producto en el repositorio por su ID
+        Optional<Producto> optionalProducto = productoRepository.findById(productoDetailDto.id());
+        if (!optionalProducto.isPresent()) {
+            // Si el producto no se encuentra, retornamos false
+            return false;
+        }
+
+        // Buscar la categoría en el repositorio por su nombre
+        Optional<Categoria> optionalCategoria = categoriaRepository.findByCategoriaNombre(productoDetailDto.categoriaNombre());
+        if (!optionalCategoria.isPresent()) {
+            // Si la categoría no se encuentra, retornamos false
+            return false;
+        }
+
+        // Obtener el producto y actualizar sus valores
+        Producto producto = optionalProducto.get();
+        producto.setNombre(productoDetailDto.nombre());
+        producto.setPrecioU(productoDetailDto.precioU());
+        producto.setCategoria(optionalCategoria.get());
+
+        // Agrega las líneas de debug para verificar los valores antes de guardar
+        System.out.println("Producto a guardar: " + producto);
+
+        // Guardar el producto actualizado en el repositorio
+        productoRepository.save(producto);
+
+        // Agrega una línea después de guardar para confirmar que se guardó
+        System.out.println("Producto guardado correctamente");
+
+        // Retornar true para indicar que la actualización fue exitosa
+        return true;
     }
+
+
 
     @Transactional
     @Override
@@ -86,6 +117,22 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             return false;  // Indicar que hubo un error
         }
     }
+
+    @Override
+    public List<CategoriaDto> getAllCategorias() {
+        List<CategoriaDto> categorias = new ArrayList<>();
+        Iterable<Categoria> iterable = categoriaRepository.findAll();
+        iterable.forEach(categoria -> {
+            // Creamos el DTO solo con el ID y el nombre de la categoría
+            CategoriaDto categoriaDto = new CategoriaDto(
+                    categoria.getCategoriaId(),
+                    categoria.getCategoriaNombre()
+            );
+            categorias.add(categoriaDto);
+        });
+        return categorias;
+    }
+
 }
 
 

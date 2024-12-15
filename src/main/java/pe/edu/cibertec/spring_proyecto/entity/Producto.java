@@ -19,4 +19,7 @@ public class Producto {
     private Integer stock;
     private String marca;
 
+    @ManyToOne
+    @JoinColumn(name = "categoriaid", referencedColumnName = "categoriaId")
+    private Categoria categoria;
 }

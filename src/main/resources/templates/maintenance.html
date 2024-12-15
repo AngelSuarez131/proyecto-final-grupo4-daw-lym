@@ -22,6 +22,7 @@
             <th>Nombre</th>
             <th>Precio</th>
             <th>Stock</th>
+            <th>Categoria</th>
             <th colspan="2">Acciones</th>
         </tr>
         <tr th:each="producto : ${productos}">
@@ -31,6 +32,7 @@
             <td th:text="${producto.nombre()}"></td>
             <td th:text="${producto.precioU()}"></td>
             <td th:text="${producto.stock()}"></td>
+            <td th:text="${producto.categoriaNombre()}"></td>
             <td>
                 <a th:href="@{/maintenance/edit/{id}(id=${producto.id})}">Editar</a>
             </td>
