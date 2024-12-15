@@ -134,3 +134,18 @@ INSERT INTO producto (nombre, precioU, uniMedida, stock, marca, categoriaId) VAL
 ('Pollo Entero', 6.00, 'Kg', 90, 'San Fernando', 6),
 ('Chuletas de Cerdo', 9.00, 'Kg', 60, 'Local', 6);
 
+
+
+-- Editar table usuario
+ALTER TABLE usuario
+ADD COLUMN role VARCHAR(50);
+
+
+UPDATE usuario
+SET role = ''ADMIN''
+WHERE usuarioId IN (1, 3);
+
+UPDATE usuario
+SET role = ''OPERATOR''
+WHERE usuarioId = 2;
+

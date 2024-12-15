@@ -51,12 +51,12 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+    /*@Bean
     public UserDetailsService userDetailsService() {
         return username -> User.builder()
                 .username("stephany")
-                .password("123456")
-                .roles("ADMIN")
+                .password(passwordEncoder().encode("123456"))
+                 .roles("ADMIN")
                 .build();
-    }
+    }*/
 }

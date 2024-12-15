@@ -58,6 +58,10 @@
 <body>
 <div class="login-container">
   <h2>Login</h2>
+
+  <div class="alert alert-danger" style="color: crimson;margin-bottom: 3px" role="alert" th:if="${param.error}">
+    Usuario o contraseña inválidos.
+  </div>
   <form th:action="@{/maintenance/login}"method="post">
     <label for="username">Usuario</label>
     <input type="text" id="username" name="username" placeholder="Ingrese su usuario" required>

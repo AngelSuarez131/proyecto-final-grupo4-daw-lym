@@ -1,5 +1,7 @@
 package pe.edu.cibertec.spring_proyecto.entity;
 
+//Clase Obsoleta
+/*
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,4 +21,5 @@ public class User {
     private String username;
     private String password;
     private String email;
-}
+    private String role;
+}*/

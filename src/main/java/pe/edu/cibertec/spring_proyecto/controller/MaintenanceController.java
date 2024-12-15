@@ -20,6 +20,7 @@ public class MaintenanceController {
 
     @Autowired
     private MaintenanceService maintenanceService;
+    @Autowired
     private CategoriaRepository categoriaRepository;
 
 
