@@ -22,6 +22,18 @@ public class MaintenanceController {
     private MaintenanceService maintenanceService;
     private CategoriaRepository categoriaRepository;
 
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        return "login";
+    }
+
+    @GetMapping("/restricted")
+    public String restricted(Model model) {
+        return "restricted";
+    }
+
+
     // Muestra la lista de productos
     @GetMapping("/start")
     public String start(Model model) {

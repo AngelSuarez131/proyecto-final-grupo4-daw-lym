@@ -11,7 +11,8 @@ CREATE TABLE usuario (
                          username VARCHAR(100) NOT NULL,
                          password VARCHAR(100) NULL,
                          email VARCHAR(100) NOT NULL,
-                         CONSTRAINT usuario_pk PRIMARY KEY (usuarioId),
+                         role VARCHARD(100) 	not NULL
+    CONSTRAINT usuario_pk PRIMARY KEY (usuarioId),
                          CONSTRAINT usuario_unique UNIQUE KEY (email),
                          CONSTRAINT usuario_unique_1 UNIQUE KEY (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -76,10 +77,12 @@ INSERT INTO distrito (distritoId, nombre) VALUES
                                               (7, 'La Victoria');
 
 -- Insertar Usuarios
-INSERT INTO usuario (usuarioId, username, password, email) VALUES
-                                                               (1, 'admin1', 'contrasegura95473', 'eladmin@gmail.com'),
-                                                               (2, 'mcabrejos', '938fjsidfa', 'monicac@gmail.com'),
-                                                               (3, 'sysadmin', '0d8g0as9d0f', 'sergioe@gmail.com');
+INSERT INTO usuario (usuarioId, username, password, email, role) VALUES
+                                                                     (1, 'admin1', 'contrasegura95473', 'eladmin@gmail.com', 'ADMIN'),
+                                                                     (2, 'mcabrejos', '938fjsidfa', 'monicac@gmail.com', 'OPERATOR'),
+                                                                     (3, 'sysadmin', '0d8g0as9d0f', 'sergioe@gmail.com', 'ADMIN'),
+                                                                     (4, 'jdoe', 'password123', 'johndoe@gmail.com', 'OPERATOR');
+
 
 -- Insertar Clientes
 INSERT INTO cliente (clienteId, nombre, email, username, password, direccion, distritoId) VALUES
