@@ -52,7 +52,8 @@ public class MaintenanceServiceImpl implements MaintenanceService {
                 producto.getUniMedida(),
                 producto.getStock(),
                 producto.getMarca(),
-                producto.getCategoria().getCategoriaNombre()
+                producto.getCategoria().getCategoriaNombre(),
+                producto.getCategoria().getCategoriaId()
         )).orElseThrow(() -> new RuntimeException("Producto no encontrado")); // Lanzar una excepción si no se encuentra
     }
 
@@ -67,17 +68,26 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         }
 
         // Buscar la categoría en el repositorio por su nombre
-        Optional<Categoria> optionalCategoria = categoriaRepository.findByCategoriaNombre(productoDetailDto.categoriaNombre());
+        Optional<Categoria> optionalCategoria = categoriaRepository.findById(productoDetailDto.categoriaId());
+
+        System.out.println("categoria: " + optionalCategoria);
+
+
         if (!optionalCategoria.isPresent()) {
             // Si la categoría no se encuentra, retornamos false
             return false;
         }
 
+
+
+
+
         // Obtener el producto y actualizar sus valores
         Producto producto = optionalProducto.get();
         producto.setNombre(productoDetailDto.nombre());
         producto.setPrecioU(productoDetailDto.precioU());
-        producto.setCategoria(optionalCategoria.get());
+        Categoria categoria = optionalCategoria.get();
+        producto.setCategoria(categoria);
 
         // Agrega las líneas de debug para verificar los valores antes de guardar
         System.out.println("Producto a guardar: " + producto);

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class Categoria {
     private String categoriaNombre;
 
     @OneToMany(mappedBy = "categoria")
+    @ToString.Exclude
     private List<Producto> productos;  // Relación con los productos (opcional, si deseas cargar los productos de la categoría)
 
 }

@@ -19,7 +19,7 @@ public class Producto {
     private Integer stock;
     private String marca;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoriaid", referencedColumnName = "categoriaId")
     private Categoria categoria;
 }

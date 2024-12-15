@@ -6,5 +6,6 @@ public record ProductoDetailDto(Integer id,
                                 String uniMedida,
                                 Integer stock,
                                 String marca,
-                                String categoriaNombre){
+                                String categoriaNombre,
+                                Integer categoriaId ){
 }

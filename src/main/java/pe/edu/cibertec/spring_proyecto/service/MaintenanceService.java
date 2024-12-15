@@ -20,4 +20,5 @@ public interface MaintenanceService {
     Boolean createProducto(Producto producto);
 
     List<CategoriaDto> getAllCategorias();
+
 }
