@@ -86,6 +86,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         Producto producto = optionalProducto.get();
         producto.setNombre(productoDetailDto.nombre());
         producto.setPrecioU(productoDetailDto.precioU());
+        producto.setStock(productoDetailDto.stock());
         Categoria categoria = optionalCategoria.get();
         producto.setCategoria(categoria);
 

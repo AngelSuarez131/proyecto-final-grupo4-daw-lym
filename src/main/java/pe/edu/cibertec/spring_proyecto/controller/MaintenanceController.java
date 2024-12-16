@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.cibertec.spring_proyecto.dto.CategoriaDto;
 import pe.edu.cibertec.spring_proyecto.dto.ProductoDetailDto;
 import pe.edu.cibertec.spring_proyecto.dto.ProductoDto;
-import pe.edu.cibertec.spring_proyecto.entity.Categoria;
+
 import pe.edu.cibertec.spring_proyecto.entity.Producto;
+import pe.edu.cibertec.spring_proyecto.entity.ShoppingCart;
 import pe.edu.cibertec.spring_proyecto.repository.CategoriaRepository;
 import pe.edu.cibertec.spring_proyecto.service.MaintenanceService;
 
@@ -22,6 +23,8 @@ public class MaintenanceController {
     private MaintenanceService maintenanceService;
     @Autowired
     private CategoriaRepository categoriaRepository;
+    @Autowired
+    private ShoppingCart shoppingCart;
 
 
     @GetMapping("/login")
@@ -34,9 +37,14 @@ public class MaintenanceController {
         return "restricted";
     }
     //Testear onAuthenticationSuccess
-    @GetMapping("/operator")
+
+
+
+    @GetMapping("/shop")
     public String operator(Model model) {
-        return "operator";
+        List<ProductoDto> productos = maintenanceService.findAllProductos();
+        model.addAttribute("productos", productos);
+        return "shop";
     }
 
 
@@ -107,7 +115,49 @@ public class MaintenanceController {
         }
     }
 
+    @GetMapping("/add/{id}")
+    public String addToCart(@PathVariable Integer id, Model model) {
+        ProductoDetailDto productoDetailDto = maintenanceService.findProductoById(id); // Obtienes el DTO con los datos del producto
+        List<CategoriaDto> categorias = maintenanceService.getAllCategorias(); // Obtienes las categorías
 
+        model.addAttribute("producto", productoDetailDto); // Le pasas el DTO al modelo
+        model.addAttribute("categorias", categorias);
+        return "cart_item";
+    }
+
+    @PostMapping("/cart-confirm")
+    public String viewC(@ModelAttribute Producto productox, Model model) {
+        ProductoDetailDto producto = maintenanceService.findProductoById(productox.getId());
+        shoppingCart.addItem(producto);
+
+        System.out.println("Datos recibidos del formulario: " + shoppingCart);
+        model.addAttribute("categorias", shoppingCart);
+
+        return "redirect:/maintenance/cart";
+    }
+
+
+//    @PostMapping("/cart-delete")
+//    public String viewDelete(@ModelAttribute Producto productox, Model model) {
+//        ProductoDetailDto producto = maintenanceService.findProductoById(productox.getId());
+//        shoppingCart.removeId(producto.getId());
+//
+//        System.out.println("Datos recibidos del formulario: " + shoppingCart);
+//        model.addAttribute("categorias", shoppingCart);
+//
+//        return "redirect:/maintenance/cart";
+//    }
+//
+
+
+
+    @GetMapping("/cart")
+    public String viewCart(Model model) {
+
+
+        model.addAttribute("cartItems", shoppingCart.getItems());
+        return "shoping_cart"; // Nombre de la vista para mostrar el carrito
+    }
 
 
 }

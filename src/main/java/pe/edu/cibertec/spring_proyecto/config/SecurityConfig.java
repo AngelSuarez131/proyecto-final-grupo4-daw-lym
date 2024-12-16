@@ -50,7 +50,7 @@ public class SecurityConfig {
 
                 //configurar logout
                 .logout(logout -> logout
-                        .logoutUrl("/maintenance/logout")
+                        .logoutUrl("/ /logout")
                         .logoutSuccessUrl("/maintenance/login?logout")
                         .permitAll()
                 );
@@ -84,7 +84,7 @@ public class SecurityConfig {
             if (esAdmin) {
                 response.sendRedirect("/maintenance/start"); // Redireccion si es admin
             } else if (esOperator) {
-                response.sendRedirect("/maintenance/operator"); // redireccion si es operator
+                response.sendRedirect("/maintenance/shop"); // redireccion si es operator
             } /*else if (esRol) {
                 response.sendRedirect("/maintenance/rol");
             }*/
