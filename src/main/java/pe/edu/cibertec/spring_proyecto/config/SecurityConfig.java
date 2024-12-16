@@ -27,6 +27,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth-> auth
                         .requestMatchers("/maintenance/login").permitAll()
                         .requestMatchers("/maintenance/start").hasAnyRole("ADMIN", "OPERATOR")
@@ -44,7 +45,6 @@ public class SecurityConfig {
                 .formLogin( form -> form
                         .loginPage("/maintenance/login")
                         .successHandler(new CustomAuthenticationSuccessHandler())
-                        //        .defaultSuccessUrl("/maintenance/start", false)
                         .permitAll()
                 )
 
@@ -75,19 +75,13 @@ public class SecurityConfig {
                     esOperator = true;
                     break;
                 }
-                /*else if (authority.getAuthority().equals("ROLE_ROL")) {
-                    esRol = true;
-                    break;
-                }*/
             }
 
             if (esAdmin) {
                 response.sendRedirect("/maintenance/start"); // Redireccion si es admin
             } else if (esOperator) {
                 response.sendRedirect("/maintenance/shop"); // redireccion si es operator
-            } /*else if (esRol) {
-                response.sendRedirect("/maintenance/rol");
-            }*/
+            }
             else {
                 response.sendRedirect("/maintenance/start"); // Redireccion por default
             }
