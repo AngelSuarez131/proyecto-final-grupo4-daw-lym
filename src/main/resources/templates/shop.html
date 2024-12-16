@@ -4,24 +4,71 @@
     <title>Tienda de Productos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        h3, h4 {
+            color: #343a40;
+        }
+
+        table th, table td {
+            text-align: center;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #c82333;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .total-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+    </style>
 </head>
 <body>
 
 <div class="container">
     </br>
     <div class="mt-3 mb-3">
-        <h3>TIENDA DE PRODUCTOS</h3>
+        <h3 class="text-center mb-4">TIENDA DE PRODUCTOS</h3>
         <!--Form para oton logout-->
         <form th:action="@{/maintenance/logout}" method="post">
             <!-- Botón para crear nuevo producto -->
             </br>
-<!--            <a href="/maintenance/create" class="btn btn-primary btn-create">Agregar nuevo Producto</a>-->
+            <!--            <a href="/maintenance/create" class="btn btn-primary btn-create">Agregar nuevo Producto</a>-->
             <!--Boton logout-->
             <button type="submit" class="btn btn-danger">Cerrar la sesion</button>
         </form>
     </div>
     </br>
-    <table class="table table-striped table-hover">
+    <table class="table table-bordered table-striped">
+
         <tr>
             <th>Código</th>
             <th>Nombre</th>
@@ -30,9 +77,11 @@
             <th>Categoria</th>
             <th colspan="2">Acciones</th>
         </tr>
+
         <tr th:each="producto : ${productos}">
             <td>
-                <a th:href="@{/maintenance/detail/{id}(id=${producto.id()})}" class="btn btn-id" th:text="${producto.id()}"></a>
+                <a th:href="@{/maintenance/detail/{id}(id=${producto.id()})}" class="btn btn-id"
+                   th:text="${producto.id()}"></a>
             </td>
             <td th:text="${producto.nombre()}"></td>
             <td th:text="${producto.precioU()}"></td>
@@ -41,17 +90,17 @@
             <td>
                 <a th:href="@{/maintenance/add/{id}(id=${producto.id()})}" class="btn btn-edit">Agregar al carrito</a>
             </td>
-<!--            <td>-->
-<!--                <a href="#" th:attr="data-id=${producto.id}, data-name=${producto.nombre}"-->
-<!--                   data-bs-toggle="modal" data-bs-target="#confirmRemove" class="btn btn-delete">-->
-<!--                    Eliminar-->
-<!--                </a>-->
-<!--            </td>-->
+            <!--            <td>-->
+            <!--                <a href="#" th:attr="data-id=${producto.id}, data-name=${producto.nombre}"-->
+            <!--                   data-bs-toggle="modal" data-bs-target="#confirmRemove" class="btn btn-delete">-->
+            <!--                    Eliminar-->
+            <!--                </a>-->
+            <!--            </td>-->
         </tr>
+
     </table>
 
 </div>
-
 
 
 <style>
@@ -65,6 +114,7 @@
         border-radius: 5px; /* Bordes redondeados */
         display: inline-block; /* Asegurar comportamiento de botón */
     }
+
     .btn-id:hover {
         background-color: #d1ca7b; /* Amarillo más intenso al pasar el mouse */
     }
@@ -74,29 +124,32 @@
         border-color: #58c0dc; /* Borde celeste más oscuro */
         color: white;
     }
+
     .btn-create:hover {
         background-color: #41b0cd; /* Más intenso al pasar el mouse */
         color: white;
     }
+
     .btn-edit {
         background-color: #df87df; /* Morado pastel */
         color: white;
     }
+
     .btn-edit:hover {
         background-color: #c352c3; /* Más intenso al pasar el mouse */
         color: white;
     }
+
     .btn-delete {
         background-color: #ea6060; /* Rojo pastel */
         color: white;
     }
+
     .btn-delete:hover {
         background-color: #b83333; /* Más intenso al pasar el mouse */
         color: white;
     }
 </style>
-
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -106,3 +159,4 @@
 
 </body>
 </html>
+
