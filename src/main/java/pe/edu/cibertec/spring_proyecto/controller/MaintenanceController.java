@@ -1,5 +1,6 @@
 package pe.edu.cibertec.spring_proyecto.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import pe.edu.cibertec.spring_proyecto.service.MaintenanceService;
 
 import java.util.List;
 
+@SessionAttributes("shoppingCart")
 @Controller
 @RequestMapping("/maintenance")
 public class MaintenanceController {
@@ -30,14 +32,13 @@ public class MaintenanceController {
     @GetMapping("/login")
     public String login(Model model) {
         return "login";
-   }
+    }
 
     @GetMapping("/restricted")
     public String restricted(Model model) {
         return "restricted";
     }
     //Testear onAuthenticationSuccess
-
 
 
     @GetMapping("/shop")
@@ -150,13 +151,35 @@ public class MaintenanceController {
 //
 
 
+    /*
+        @GetMapping("/cart")
+        public String viewCart(Model model) {
 
+            model.addAttribute("cartItems", shoppingCart.getItems());
+            return "shoping_cart"; // Nombre de la vista para mostrar el carrito
+        }
+     */
+    /*GPT*/
+    //Constructor
+    public MaintenanceController(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
+
+    // Metodo para ver el carrito de compras
     @GetMapping("/cart")
     public String viewCart(Model model) {
-
-
+        // Pasar los items del carrito a la vista
         model.addAttribute("cartItems", shoppingCart.getItems());
+        model.addAttribute("total", shoppingCart.getTotal()); // Asegúrate de tener un método getTotal en ShoppingCart
         return "shoping_cart"; // Nombre de la vista para mostrar el carrito
+    }
+
+
+    // Metodo para limpiar el carrito de compras
+    @GetMapping("/cart/clear")
+    public String clearCart() {
+        shoppingCart.clear(); // Asegúrate de que el metodo clear() limpia todos los items del carrito
+        return "redirect:/maintenance/cart"; // Redirigir al carrito vacío
     }
 
 

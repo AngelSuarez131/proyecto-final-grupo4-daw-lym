@@ -80,10 +80,12 @@
     </table>
 
     <div class="total-container">
-        <h4>Total: <span th:text="${total}"></span></h4>
+        <h4>Total: S/<span th:text="${total}"></span></h4>
     </div>
 
     <div class="text-center mt-4">
+        <a href="/maintenance/cart/clear" class="btn btn-warning">Limpiar Carrito</a>
+
         <a href="/maintenance/shop" class="btn btn-primary">Seguir Comprando</a>
     </div>
 </div>

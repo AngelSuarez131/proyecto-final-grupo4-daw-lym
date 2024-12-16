@@ -34,6 +34,10 @@ public class ShoppingCart {
         items.removeIf(item -> item.getProducto().id().equals(productoId));
     }
 
+    // Metodo para limpiar el carrito
+    public void clear() {
+        items.clear(); // Elimina todos los elementos del carrito
+    }
 
     //mostart el total de
     public double getTotal() {
@@ -47,6 +51,8 @@ public class ShoppingCart {
     }
 
     //removerTodoslosProductosDeLaLISTA
+
+
 }
 
 @Data
