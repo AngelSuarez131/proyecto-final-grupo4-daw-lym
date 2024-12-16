@@ -42,6 +42,19 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         return productos;
     }
 
+    public Optional<ProductoDto> findProdById(int id) {
+
+        Optional<Producto> optional = productoRepository.findById(id);
+        return optional.map(producto -> new ProductoDto(
+                producto.getId(),
+                producto.getNombre(),
+                producto.getPrecioU(),
+                producto.getStock(),
+                producto.getCategoria().getCategoriaNombre()));
+                // Lanzar una excepción si no se encuentra
+    }
+
+
     @Override
     public ProductoDetailDto findProductoById(int id) {
         Optional<Producto> optional = productoRepository.findById(id);
@@ -143,6 +156,8 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         });
         return categorias;
     }
+
+
 
 }
 

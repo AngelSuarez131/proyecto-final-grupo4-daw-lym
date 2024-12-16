@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.cibertec.spring_proyecto.dto.CategoriaDto;
 import pe.edu.cibertec.spring_proyecto.dto.ProductoDetailDto;
 import pe.edu.cibertec.spring_proyecto.dto.ProductoDto;
-
 import pe.edu.cibertec.spring_proyecto.entity.Producto;
 import pe.edu.cibertec.spring_proyecto.entity.ShoppingCart;
 import pe.edu.cibertec.spring_proyecto.repository.CategoriaRepository;
@@ -97,6 +96,17 @@ public class MaintenanceController {
         }
     }
 
+    // Metodo para eliminar un producto específico del carrito
+    @GetMapping("/cart/remove/{id}")
+    public String removeItem(@PathVariable Integer id) {
+        shoppingCart.removeItemById(id); // Metodo para eliminar el item del carrito
+        return "redirect:/cart"; // Redirigir al carrito actualizado
+    }
+
+
+
+
+
     @GetMapping("/create")
     public String showCreateProductForm(Model model) {
         List<CategoriaDto> categorias = maintenanceService.getAllCategorias(); // Obtienes las categorías
@@ -159,7 +169,7 @@ public class MaintenanceController {
             return "shoping_cart"; // Nombre de la vista para mostrar el carrito
         }
      */
-    /*GPT*/
+
     //Constructor
     public MaintenanceController(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;

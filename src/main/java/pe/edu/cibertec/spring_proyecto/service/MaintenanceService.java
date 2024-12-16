@@ -7,9 +7,12 @@ import pe.edu.cibertec.spring_proyecto.entity.Categoria;
 import pe.edu.cibertec.spring_proyecto.entity.Producto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MaintenanceService {
     List<ProductoDto> findAllProductos();
+
+    Optional<ProductoDto> findProdById(int id);
 
     ProductoDetailDto findProductoById(int id);
 
