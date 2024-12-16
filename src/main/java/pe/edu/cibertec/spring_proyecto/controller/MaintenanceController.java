@@ -99,11 +99,9 @@ public class MaintenanceController {
     // Metodo para eliminar un producto específico del carrito
     @GetMapping("/cart/remove/{id}")
     public String removeItem(@PathVariable Integer id) {
-        shoppingCart.removeItemById(id); // Metodo para eliminar el item del carrito
-        return "redirect:/cart"; // Redirigir al carrito actualizado
+        shoppingCart.removeCartItemById(id); // Metodo para eliminar el ítem
+        return "redirect:/maintenance/cart"; // Redirige al carrito actualizado
     }
-
-
 
 
 
@@ -191,7 +189,6 @@ public class MaintenanceController {
         shoppingCart.clear(); // Limpiar el carrito
         return "redirect:/maintenance/cart"; // Redirigir al carrito vacío
     }
-
 
 
 }

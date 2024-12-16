@@ -28,9 +28,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, ShoppingCart shoppingCart) throws Exception {
         http
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/maintenance/login").permitAll()
                         .requestMatchers("/maintenance/start").hasAnyRole("ADMIN", "OPERATOR")
+                        .requestMatchers("/maintenance/cart/remove/**").authenticated()
                         .anyRequest().authenticated()
                 )
 
@@ -45,7 +47,7 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/maintenance/login")
                         .successHandler(new CustomAuthenticationSuccessHandler())
-                        //        .defaultSuccessUrl("/maintenance/start", false)
+
                         .permitAll()
                 )
 
@@ -58,7 +60,6 @@ public class SecurityConfig {
                 );
         return http.build();
     }
-
 
 
     /*Clase succesauthhandler para manejar redireccion de inicio de sesion segun tipo de usuario en la bd*/
@@ -79,19 +80,13 @@ public class SecurityConfig {
                     esOperator = true;
                     break;
                 }
-                /*else if (authority.getAuthority().equals("ROLE_ROL")) {
-                    esRol = true;
-                    break;
-                }*/
             }
 
             if (esAdmin) {
                 response.sendRedirect("/maintenance/start"); // Redireccion si es admin
             } else if (esOperator) {
                 response.sendRedirect("/maintenance/shop"); // redireccion si es operator
-            } /*else if (esRol) {
-                response.sendRedirect("/maintenance/rol");
-            }*/ else {
+            }  else {
                 response.sendRedirect("/maintenance/start"); // Redireccion por default
             }
         }
