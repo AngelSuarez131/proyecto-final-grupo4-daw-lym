@@ -11,8 +11,8 @@ CREATE TABLE usuario (
                          username VARCHAR(100) NOT NULL,
                          password VARCHAR(100) NULL,
                          email VARCHAR(100) NOT NULL,
-                         role VARCHARD(100) 	not NULL
-    CONSTRAINT usuario_pk PRIMARY KEY (usuarioId),
+                         role VARCHAR(100) NOT NULL,
+                         CONSTRAINT usuario_pk PRIMARY KEY (usuarioId),
                          CONSTRAINT usuario_unique UNIQUE KEY (email),
                          CONSTRAINT usuario_unique_1 UNIQUE KEY (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -48,7 +48,6 @@ CREATE TABLE categoria (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Producto
--- Product
 CREATE TABLE producto (
                           id INT AUTO_INCREMENT NOT NULL,
                           nombre VARCHAR(100) NOT NULL,
@@ -62,9 +61,6 @@ CREATE TABLE producto (
                               ON DELETE CASCADE
                               ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-
--- Insertar Datos
 
 -- Insertar Distritos
 INSERT INTO distrito (distritoId, nombre) VALUES
@@ -83,7 +79,6 @@ INSERT INTO usuario (usuarioId, username, password, email, role) VALUES
                                                                      (3, 'sysadmin', '0d8g0as9d0f', 'sergioe@gmail.com', 'ADMIN'),
                                                                      (4, 'jdoe', 'password123', 'johndoe@gmail.com', 'OPERATOR');
 
-
 -- Insertar Clientes
 INSERT INTO cliente (clienteId, nombre, email, username, password, direccion, distritoId) VALUES
                                                                                               (1, 'Juan Pérez', 'juan.perez@gmail.com', 'jperez', 'contrasena', 'Av. Del Ejemplo 674', 2),
@@ -94,7 +89,7 @@ INSERT INTO cliente (clienteId, nombre, email, username, password, direccion, di
                                                                                               (6, 'Ana Martínez', 'ana.martinez@gmail.com', 'anam', 'sid8g89dgs', 'Av La Mar 987', 1);
 
 -- Insertar Categorías
-INSERT INTO categoria (categoriaId, categorianombre) VALUES
+INSERT INTO categoria (categoriaId, categoriaNombre) VALUES
                                                          (1, 'Enlatado'),
                                                          (2, 'Lácteo'),
                                                          (3, 'Cereales'),
@@ -104,48 +99,40 @@ INSERT INTO categoria (categoriaId, categorianombre) VALUES
 
 -- Insertar Productos
 INSERT INTO producto (nombre, precioU, uniMedida, stock, marca, categoriaId) VALUES
--- Enlatados
-('Atún en aceite', 2.50, 'Lata', 120, 'San Jorge', 1),
-('Duraznos en almíbar', 3.20, 'Lata', 80, 'D\'Onofrio', 1),
+                                                                                 ('Atún en aceite', 2.50, 'Lata', 120, 'San Jorge', 1),
+                                                                                 ('Duraznos en almíbar', 3.20, 'Lata', 80, 'D\'Onofrio', 1),
 ('Sardinas', 1.80, 'Lata', 150, 'Florida', 1),
-
--- Lácteos
 ('Leche Entera', 1.50, 'Litro', 100, 'Laive', 2),
 ('Yogur Natural', 2.00, 'Botella', 90, 'Gloria', 2),
 ('Queso Fresco', 5.50, 'Kg', 50, 'Andino', 2),
-
--- Cereales
 ('Avena en hojuelas', 2.00, 'Kg', 120, 'Quaker', 3),
 ('Arroz Integral', 3.20, 'Kg', 50, 'Costeño', 3),
 ('Maíz para cancha', 2.50, 'Kg', 70, 'Local', 3),
-
--- Frutas
 ('Manzana Roja', 0.80, 'Kg', 200, 'Local', 4),
 ('Plátano', 0.60, 'Kg', 150, 'Local', 4),
 ('Uvas Verdes', 3.50, 'Kg', 100, 'Local', 4),
-
--- Verduras
 ('Zanahoria', 1.20, 'Kg', 180, 'Local', 5),
 ('Papa Amarilla', 1.80, 'Kg', 150, 'Local', 5),
 ('Brócoli', 2.50, 'Kg', 70, 'Local', 5),
-
--- Carnes
 ('Carne de Res', 8.50, 'Kg', 70, 'Local', 6),
 ('Pollo Entero', 6.00, 'Kg', 90, 'San Fernando', 6),
 ('Chuletas de Cerdo', 9.00, 'Kg', 60, 'Local', 6);
 
-
-
--- Editar table usuario
-ALTER TABLE usuario
-ADD COLUMN role VARCHAR(50);
-
-
+-- Actualizar roles de usuario
 UPDATE usuario
-SET role = ''ADMIN''
+SET role = 'ADMIN'
 WHERE usuarioId IN (1, 3);
 
 UPDATE usuario
-SET role = ''OPERATOR''
+SET role = 'OPERATOR'
 WHERE usuarioId = 2;
+
+-- Insertar para test
+
+INSERT INTO usuario (usuarioId, username, password, email,role) VALUES
+(4, 'admin', 'admin', 'admin@gmail.com','ADMIN'),
+(5, 'operator', 'operator', 'op@gmail.com','OPERATOR'),
+(6, 'client', 'client', 'client@gmail.com','CLIENT');
+
+-- 
 

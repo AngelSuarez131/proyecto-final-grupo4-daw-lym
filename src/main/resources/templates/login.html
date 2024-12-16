@@ -54,13 +54,17 @@
       background-color: #0056b3;
     }
   </style>
+
 </head>
 <body>
 <div class="login-container">
   <h2>Login</h2>
 
-  <div class="alert alert-danger" style="color: crimson;margin-bottom: 3px" role="alert" th:if="${param.error}">
+  <div class="" style="color: crimson;margin-bottom: 3px" role="alert" th:if="${param.error}">
     Usuario o contraseña inválidos.
+  </div>
+  <div class="" style="color: chartreuse;margin-bottom: 3px" role="alert" th:if="${param.logout}">
+    Sesion cerrada correctamente.
   </div>
   <form th:action="@{/maintenance/login}"method="post">
     <label for="username">Usuario</label>

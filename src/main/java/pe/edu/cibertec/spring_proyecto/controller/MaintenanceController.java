@@ -24,15 +24,20 @@ public class MaintenanceController {
     private CategoriaRepository categoriaRepository;
 
 
-//    @GetMapping("/login")
-//    public String login(Model model) {
-//        return "login";
-//    }
-//
-//    @GetMapping("/restricted")
-//    public String restricted(Model model) {
-//        return "restricted";
-//    }
+    @GetMapping("/login")
+    public String login(Model model) {
+        return "login";
+   }
+
+    @GetMapping("/restricted")
+    public String restricted(Model model) {
+        return "restricted";
+    }
+    //Testear onAuthenticationSuccess
+    @GetMapping("/operator")
+    public String operator(Model model) {
+        return "operator";
+    }
 
 
     // Muestra la lista de productos
