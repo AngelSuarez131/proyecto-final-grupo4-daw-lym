@@ -50,7 +50,7 @@ public class SecurityConfig {
 
                 //configurar logout
                 .logout(logout -> logout
-                        .logoutUrl("/ /logout")
+                        .logoutUrl("/maintenance/logout")
                         .logoutSuccessUrl("/maintenance/login?logout")
                         .permitAll()
                 );
