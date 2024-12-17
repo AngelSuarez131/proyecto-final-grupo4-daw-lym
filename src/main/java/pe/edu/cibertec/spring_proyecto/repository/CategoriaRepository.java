@@ -14,8 +14,4 @@ public interface CategoriaRepository extends CrudRepository<Categoria, Integer> 
 
     Optional<Categoria> findById(Integer id);  // Método para buscar por ID
 
-
-
-
-    Optional<Categoria> findByCategoriaNombre(String categoriaNombre);
 }
