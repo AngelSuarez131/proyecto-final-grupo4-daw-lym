@@ -99,11 +99,9 @@ public class MaintenanceController {
     // Metodo para eliminar un producto específico del carrito
     @GetMapping("/cart/remove/{id}")
     public String removeItem(@PathVariable Integer id) {
-        shoppingCart.removeItemById(id); // Metodo para eliminar el item del carrito
-        return "redirect:/cart"; // Redirigir al carrito actualizado
+        shoppingCart.removeCartItemById(id); // Metodo para eliminar el ítem
+        return "redirect:/maintenance/cart"; // Redirige al carrito actualizado
     }
-
-
 
 
 
@@ -171,16 +169,16 @@ public class MaintenanceController {
      */
 
     //Constructor
-    public MaintenanceController(ShoppingCart shoppingCart) {
-        this.shoppingCart = shoppingCart;
-    }
+//    public MaintenanceController(ShoppingCart shoppingCart) {
+//        this.shoppingCart = shoppingCart;
+//    }
 
     // Metodo para ver el carrito de compras
     @GetMapping("/cart")
     public String viewCart(Model model) {
         // Pasar los items del carrito a la vista
         model.addAttribute("cartItems", shoppingCart.getItems());
-        model.addAttribute("total", shoppingCart.getTotal()); // Asegúrate de tener un método getTotal en ShoppingCart
+        model.addAttribute("total", shoppingCart.getTotal()); // Asegúrate de tener un metodo getTotal() en ShoppingCart
         return "shoping_cart"; // Nombre de la vista para mostrar el carrito
     }
 
@@ -188,7 +186,7 @@ public class MaintenanceController {
     // Metodo para limpiar el carrito de compras
     @GetMapping("/cart/clear")
     public String clearCart() {
-        shoppingCart.clear(); // Asegúrate de que el metodo clear() limpia todos los items del carrito
+        shoppingCart.clear(); // Limpiar el carrito
         return "redirect:/maintenance/cart"; // Redirigir al carrito vacío
     }
 

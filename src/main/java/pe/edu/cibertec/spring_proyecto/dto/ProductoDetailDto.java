@@ -8,4 +8,6 @@ public record ProductoDetailDto(Integer id,
                                 String marca,
                                 String categoriaNombre,
                                 Integer categoriaId ){
+
+
 }

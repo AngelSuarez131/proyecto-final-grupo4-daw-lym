@@ -12,6 +12,9 @@ import java.util.List;
 @Data
 public class ShoppingCart {
     private List<CartItem> items = new ArrayList<>();
+    public List<CartItem> getItems() {
+        return items;
+    }
 
 
     //AGREGAR AL CARRITO
@@ -26,38 +29,11 @@ public class ShoppingCart {
         // Si no existe, lo agrega
         items.add(new CartItem(producto, 1));
     }
-/*
-    // Metodo para eliminar un item por ID
-    public void removeItemById(Integer id) {
-        Iterator<CartItem> iterator = items.iterator();
-        while (iterator.hasNext()) {
-            CartItem item = iterator.next();
-            // Compara el id del producto
-            if (item.getProducto().id().equals(id)) {
-                iterator.remove(); // Elimina el item si su id coincide
-                break;
-            }
-        }
-    }
-*/
 
-    // Metodo para reducir la cantidad de un artículo
-    public void removeItemById(Integer id) {
-        // Buscamos el artículo por ID
-        CartItem item = items.stream()
-                .filter(cartItem -> cartItem.getProducto().id().equals(id))
-                .findFirst()
-                .orElse(null);
-
-        if (item != null) {
-            // Decrementamos la cantidad
-            item.setQuantity(item.getQuantity() - 1);
-
-            // Si la cantidad es 0, eliminamos el artículo del carrito
-            if (item.getQuantity() == 0) {
-                items.remove(item);
-            }
-        }
+    public void removeCartItemById(Integer id) {
+        if (items == null || items.isEmpty()) return; // Validación de lista vacía
+        items.removeIf(cartItem -> cartItem.getProducto() != null &&
+                id.equals(cartItem.getProducto().id())); // Usar id()
     }
 
 
@@ -81,7 +57,7 @@ public class ShoppingCart {
 
 @Data
 class CartItem {
-    private ProductoDetailDto producto;
+    private ProductoDetailDto producto; // Producto asociado al carrito
     private int quantity;
 
     public CartItem(ProductoDetailDto producto, int quantity) {
@@ -89,5 +65,20 @@ class CartItem {
         this.quantity = quantity;
     }
 
+    public ProductoDetailDto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(ProductoDetailDto producto) {
+        this.producto = producto;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }
 
